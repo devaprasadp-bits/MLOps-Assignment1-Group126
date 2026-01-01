@@ -99,9 +99,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Backup files
-README_backup.md
-
 # MLflow
 mlruns/
 mlartifacts/
@@ -140,8 +137,5 @@ logs/
 grafana-data/
 prometheus-data/
 
-# Personal notes (don't commit)
-SUBMISSION_GUIDE.md
-ASSIGNMENT_REPORT.md
-QUICKSTART.md
-EXECUTION_GUIDE.md
+# Personal notes and internal documentation
+internal/
