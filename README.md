@@ -3,6 +3,12 @@
 **GitHub Repository:** https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126
 
 **Group 126** - MLOps Assignment 1 (S1-25_AIMLCZG523)
+### CONTRIBUTERS
+- DEVAPRASAD P           (2023aa05069@wilp.bits-pilani.ac.in)
+- DEVENDER KUMAR         (2024aa05065@wilp.bits-pilani.ac.in)
+- CHAVALI AMRUTHA VALLI  (2024aa05610@wilp.bits-pilani.ac.in)
+- PALAKOLANU PREETHI     (2024aa05608@wilp.bits-pilani.ac.in)
+- ROHAN TIRTHANKAR BEHERA(2024aa05607@wilp.bits-pilani.ac.in)
 
 This project builds a machine learning system to predict heart disease as part of an MLOps coursework assignment using the UCI Heart Disease dataset. It covers data analysis, model training, API deployment, and the steps needed to run this end to end with Docker and Kubernetes.
 
