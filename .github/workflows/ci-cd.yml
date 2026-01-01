@@ -85,6 +85,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies for model creation
+      run: |
+        python -m pip install --upgrade pip
+        pip install joblib scikit-learn
+    
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     
