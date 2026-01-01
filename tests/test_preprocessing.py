@@ -2,16 +2,17 @@
 Unit tests for data processing and preprocessing
 """
 
-import pytest
-import pandas as pd
-import numpy as np
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import pytest
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.preprocessing import load_data, clean_data, prepare_features  # noqa: E402
+from src.preprocessing import clean_data, load_data, prepare_features  # noqa: E402
 
 
 class TestDataProcessing:

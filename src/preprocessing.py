@@ -2,10 +2,11 @@
 Data preprocessing utilities for heart disease prediction
 """
 
-import pandas as pd
-from pathlib import Path
-from sklearn.preprocessing import StandardScaler
 import logging
+from pathlib import Path
+
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

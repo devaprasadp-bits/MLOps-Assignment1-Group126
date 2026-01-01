@@ -3,17 +3,18 @@ Heart Disease Prediction API
 FastAPI application for serving heart disease predictions
 """
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import PlainTextResponse
-from pydantic import BaseModel, Field
-import joblib
-import pandas as pd
-from pathlib import Path
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import List
+
+import joblib
+import pandas as pd
 import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import PlainTextResponse
 from prometheus_client import Counter, Histogram, generate_latest
+from pydantic import BaseModel, Field
 
 # Configure logging
 logging.basicConfig(
