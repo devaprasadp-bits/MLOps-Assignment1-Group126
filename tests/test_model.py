@@ -91,7 +91,10 @@ class TestModelTraining:
         model = Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("classifier", RandomForestClassifier(n_estimators=10, random_state=42)),
+                (
+                    "classifier",
+                    RandomForestClassifier(n_estimators=10, random_state=42),
+                ),
             ]
         )
 
@@ -110,7 +113,10 @@ class TestModelTraining:
         model = Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("classifier", RandomForestClassifier(n_estimators=10, random_state=42)),
+                (
+                    "classifier",
+                    RandomForestClassifier(n_estimators=10, random_state=42),
+                ),
             ]
         )
 
@@ -159,7 +165,10 @@ class TestModelPredictions:
         model = Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("classifier", RandomForestClassifier(n_estimators=10, random_state=42)),
+                (
+                    "classifier",
+                    RandomForestClassifier(n_estimators=10, random_state=42),
+                ),
             ]
         )
         model.fit(X, y)
