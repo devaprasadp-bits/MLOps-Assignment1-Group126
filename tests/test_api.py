@@ -58,6 +58,13 @@ class TestAPIEndpoints:
         assert response.status_code == 200
         assert "status" in response.json()
 
+    def test_metrics_endpoint(self, client):
+        """Test Prometheus metrics endpoint"""
+        response = client.get("/metrics")
+        assert response.status_code == 200
+        # Check that it returns text/plain content
+        assert "text/plain" in response.headers.get("content-type", "")
+
     def test_predict_endpoint_valid_data(self, client, sample_patient_data):
         """Test predict endpoint with valid data"""
         response = client.post("/predict", json=sample_patient_data)
