@@ -14,7 +14,7 @@ services:
       - ENVIRONMENT=production
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3).read()"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -34,6 +34,8 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
     restart: unless-stopped
+    depends_on:
+      - api
     networks:
       - heart-disease-network
 
