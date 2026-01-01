@@ -1,0 +1,4 @@
+# Model directory
+# Trained models will be saved here
+
+# .gitkeep file ensures this directory is tracked by git

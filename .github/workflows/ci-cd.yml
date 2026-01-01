@@ -1,0 +1,183 @@
+name: Heart Disease Prediction CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov black flake8 isort
+    
+    - name: Run Black (code formatting check)
+      run: |
+        black --check --diff app/ src/ tests/
+      continue-on-error: true
+    
+    - name: Run isort (import sorting check)
+      run: |
+        isort --check-only --diff app/ src/ tests/
+      continue-on-error: true
+    
+    - name: Run Flake8 (linting)
+      run: |
+        flake8 app/ src/ tests/ --max-line-length=100 --extend-ignore=E203,W503
+      continue-on-error: true
+    
+    - name: Create test directories
+      run: |
+        mkdir -p data/processed models figures mlruns
+    
+    - name: Run unit tests
+      run: |
+        pytest tests/ -v --cov=src --cov=app --cov-report=xml --cov-report=html --cov-report=term
+      continue-on-error: false
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+      continue-on-error: true
+    
+    - name: Archive test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: htmlcov/
+
+  build-docker:
+    name: Build Docker Image
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Create dummy model for Docker build
+      run: |
+        mkdir -p models
+        python -c "import joblib; from sklearn.ensemble import RandomForestClassifier; from sklearn.pipeline import Pipeline; from sklearn.preprocessing import StandardScaler; model = Pipeline([('scaler', StandardScaler()), ('classifier', RandomForestClassifier())]); joblib.dump(model, 'models/best_model.pkl')"
+    
+    - name: Build Docker image
+      run: |
+        docker build -t heart-disease-api:${{ github.sha }} .
+        docker tag heart-disease-api:${{ github.sha }} heart-disease-api:latest
+    
+    - name: Test Docker image
+      run: |
+        docker run -d -p 8000:8000 --name test-api heart-disease-api:latest
+        sleep 10
+        curl -f http://localhost:8000/health || exit 1
+        docker stop test-api
+        docker rm test-api
+    
+    - name: Save Docker image
+      run: |
+        docker save heart-disease-api:latest -o heart-disease-api.tar
+    
+    - name: Upload Docker image artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: docker-image
+        path: heart-disease-api.tar
+        retention-days: 7
+
+  train-model:
+    name: Train Model
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Download dataset
+      run: |
+        mkdir -p data/processed
+        # For demo purposes, we assume the dataset is in the repo
+        # In production, you might fetch from a data store
+    
+    - name: Train model
+      run: |
+        # This would run your training script
+        echo "Training model..."
+        # python scripts/train_model.py
+    
+    - name: Upload model artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: trained-model
+        path: |
+          models/
+          mlruns/
+        retention-days: 30
+
+  security-scan:
+    name: Security Scan
+    needs: build-docker
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+      continue-on-error: true
+    
+    - name: Upload Trivy results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
+      continue-on-error: true
