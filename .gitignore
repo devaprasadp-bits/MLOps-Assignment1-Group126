@@ -99,6 +99,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Backup files
+README_backup.md
+
 # MLflow
 mlruns/
 mlartifacts/
