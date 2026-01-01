@@ -1,3 +1,7 @@
+# Heart Disease Prediction MLOps Stack
+# Note: Grafana uses demo credentials (admin/admin) for local development only
+# Models are baked into the Docker image, not mounted from host
+
 version: '3.8'
 
 services:
@@ -8,12 +12,9 @@ services:
       - "8000:8000"
     environment:
       - ENVIRONMENT=production
-    volumes:
-      - ./models:/app/models
-      - ./logs:/app/logs
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -22,7 +23,7 @@ services:
       - heart-disease-network
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.48.0
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -37,7 +38,7 @@ services:
       - heart-disease-network
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:10.2.3
     container_name: grafana
     ports:
       - "3000:3000"
