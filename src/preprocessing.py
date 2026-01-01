@@ -3,7 +3,6 @@ Data preprocessing utilities for heart disease prediction
 """
 
 import pandas as pd
-import numpy as np
 from pathlib import Path
 from sklearn.preprocessing import StandardScaler
 import logging
@@ -15,10 +14,10 @@ logger = logging.getLogger(__name__)
 def load_data(filepath):
     """
     Load heart disease dataset
-    
+
     Args:
         filepath: Path to the data file
-        
+
     Returns:
         DataFrame with loaded data
     """
@@ -35,64 +34,64 @@ def load_data(filepath):
 def clean_data(df):
     """
     Clean and preprocess the dataset
-    
+
     Args:
         df: Input DataFrame
-        
+
     Returns:
         Cleaned DataFrame
     """
     df_clean = df.copy()
-    
+
     # Handle missing values
     for col in df_clean.columns:
         if df_clean[col].isnull().sum() > 0:
-            if df_clean[col].dtype in ['float64', 'int64']:
+            if df_clean[col].dtype in ["float64", "int64"]:
                 # Use mode for categorical-like numerical features
-                if col in ['ca', 'thal']:
+                if col in ["ca", "thal"]:
                     df_clean[col].fillna(df_clean[col].mode()[0], inplace=True)
                 else:
                     # Use median for continuous features
                     df_clean[col].fillna(df_clean[col].median(), inplace=True)
             logger.info(f"Filled missing values in {col}")
-    
+
     # Convert target to binary if not already
-    if 'target' in df_clean.columns:
-        df_clean['target'] = (df_clean['target'] > 0).astype(int)
-    
+    if "target" in df_clean.columns:
+        df_clean["target"] = (df_clean["target"] > 0).astype(int)
+
     logger.info("Data cleaning completed")
     logger.info(f"Cleaned shape: {df_clean.shape}")
     logger.info(f"Missing values: {df_clean.isnull().sum().sum()}")
-    
+
     return df_clean
 
 
 def prepare_features(df):
     """
     Separate features and target
-    
+
     Args:
         df: Input DataFrame
-        
+
     Returns:
         Tuple of (X, y) where X is features and y is target
     """
-    X = df.drop('target', axis=1)
-    y = df['target']
-    
+    X = df.drop("target", axis=1)
+    y = df["target"]
+
     logger.info(f"Features shape: {X.shape}")
     logger.info(f"Target shape: {y.shape}")
-    
+
     return X, y
 
 
 def get_scaler(X_train):
     """
     Fit and return a StandardScaler
-    
+
     Args:
         X_train: Training features
-        
+
     Returns:
         Fitted StandardScaler
     """
@@ -105,11 +104,11 @@ def get_scaler(X_train):
 def scale_features(X, scaler):
     """
     Scale features using provided scaler
-    
+
     Args:
         X: Features to scale
         scaler: Fitted scaler
-        
+
     Returns:
         Scaled features as DataFrame
     """
