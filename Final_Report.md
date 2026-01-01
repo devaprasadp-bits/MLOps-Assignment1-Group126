@@ -1,10 +1,26 @@
-# MLOps Assignment Report
-## Heart Disease Prediction System
+<div align="center">
 
-**Student Name:** [Your Name]  
-**Course:** Machine Learning Operations  
-**Date:** December 31, 2025  
-**GitHub Repository:** [https://github.com/YOUR_USERNAME/heart-disease-prediction](https://github.com/YOUR_USERNAME/heart-disease-prediction)
+# MLOps (S1-25_AIMLCZG523) ASSIGNMENT - 1
+
+## Group - 126
+
+</div>
+
+| Name | ID | Contribution |
+|------|----|----|
+| DEVAPRASAD P | 2023AA05069 | 100% |
+| DEVENDER KUMAR | 2024AA05065 | 100% |
+| ROHAN TIRTHANKAR BEHERA | 2024AA05607 | 100% |
+| PALAKOLANU PREETHI | 2024AA05608 | 100% |
+| CHAVALI AMRUTHA VALLI | 2024AA05610 | 100% |
+
+---
+
+# Heart Disease Prediction System - MLOps Implementation
+
+**Course:** Machine Learning Operations (S1-25_AIMLCZG523)  
+**Date:** January 1, 2026  
+**GitHub Repository:** https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126
 
 ---
 
@@ -180,7 +196,7 @@ The project gave hands-on experience with MLOps tools like Docker, Kubernetes, P
 
 ## 6. Repository
 
-**GitHub:** [https://github.com/YOUR_USERNAME/heart-disease-prediction](https://github.com/YOUR_USERNAME/heart-disease-prediction)
+**GitHub:** https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126
 
 Repository includes:
 - Source code
