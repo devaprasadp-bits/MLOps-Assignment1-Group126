@@ -101,7 +101,24 @@ jobs:
     - name: Create dummy model for Docker build
       run: |
         mkdir -p models
-        python -c "import joblib; from sklearn.ensemble import RandomForestClassifier; from sklearn.pipeline import Pipeline; from sklearn.preprocessing import StandardScaler; model = Pipeline([('scaler', StandardScaler()), ('classifier', RandomForestClassifier())]); joblib.dump(model, 'models/best_model.pkl')"
+        python -c "
+        import joblib
+        import numpy as np
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.pipeline import Pipeline
+        from sklearn.preprocessing import StandardScaler
+        
+        # Create fitted dummy model
+        X = np.random.rand(100, 13)
+        y = np.random.randint(0, 2, 100)
+        model = Pipeline([
+            ('scaler', StandardScaler()),
+            ('classifier', RandomForestClassifier(n_estimators=10, random_state=42))
+        ])
+        model.fit(X, y)
+        joblib.dump(model, 'models/best_model.pkl')
+        print('✓ Fitted dummy model created')
+        "
     
     - name: Build Docker image
       run: |
