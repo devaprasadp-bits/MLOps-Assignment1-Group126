@@ -51,7 +51,10 @@ class TestModelTraining:
         X, y = sample_data
 
         model = Pipeline(
-            [("scaler", StandardScaler()), ("classifier", LogisticRegression(random_state=42))]
+            [
+                ("scaler", StandardScaler()),
+                ("classifier", LogisticRegression(random_state=42)),
+            ]
         )
 
         model.fit(X, y)
@@ -71,7 +74,10 @@ class TestModelTraining:
         model = Pipeline(
             [
                 ("scaler", StandardScaler()),
-                ("classifier", RandomForestClassifier(n_estimators=10, random_state=42)),
+                (
+                    "classifier",
+                    RandomForestClassifier(n_estimators=10, random_state=42),
+                ),
             ]
         )
 

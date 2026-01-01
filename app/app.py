@@ -31,8 +31,12 @@ app = FastAPI(
 
 # Prometheus metrics
 prediction_counter = Counter("predictions_total", "Total number of predictions")
-prediction_errors = Counter("prediction_errors_total", "Total number of prediction errors")
-prediction_latency = Histogram("prediction_latency_seconds", "Prediction latency in seconds")
+prediction_errors = Counter(
+    "prediction_errors_total", "Total number of prediction errors"
+)
+prediction_latency = Histogram(
+    "prediction_latency_seconds", "Prediction latency in seconds"
+)
 
 # Load model at startup
 MODEL_PATH = Path("models/best_model.pkl")
@@ -55,9 +59,13 @@ class PatientData(BaseModel):
     )
     restecg: int = Field(..., description="Resting ECG results (0-2)", ge=0, le=2)
     thalach: float = Field(..., description="Maximum heart rate achieved", ge=0, le=250)
-    exang: int = Field(..., description="Exercise induced angina (1=yes, 0=no)", ge=0, le=1)
+    exang: int = Field(
+        ..., description="Exercise induced angina (1=yes, 0=no)", ge=0, le=1
+    )
     oldpeak: float = Field(..., description="ST depression induced by exercise", ge=0)
-    slope: int = Field(..., description="Slope of peak exercise ST segment (1-3)", ge=0, le=3)
+    slope: int = Field(
+        ..., description="Slope of peak exercise ST segment (1-3)", ge=0, le=3
+    )
     ca: float = Field(..., description="Number of major vessels (0-3)", ge=0, le=4)
     thal: float = Field(
         ...,
@@ -192,7 +200,9 @@ async def predict(patient: PatientData):
         )
 
         # Log response
-        logger.info(f"Prediction: {prediction}, Probability: {probability:.4f}, Risk: {risk_level}")
+        logger.info(
+            f"Prediction: {prediction}, Probability: {probability:.4f}, Risk: {risk_level}"
+        )
 
         return response
 
