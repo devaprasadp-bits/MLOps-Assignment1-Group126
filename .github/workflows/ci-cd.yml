@@ -14,7 +14,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -22,7 +22,7 @@ jobs:
         python-version: '3.9'
     
     - name: Cache dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
@@ -68,11 +68,12 @@ jobs:
       continue-on-error: true
     
     - name: Archive test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results
         path: htmlcov/
+        if-no-files-found: warn
 
   build-docker:
     name: Build Docker Image
@@ -82,10 +83,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
     
     - name: Create dummy model for Docker build
       run: |
@@ -100,31 +101,68 @@ jobs:
     - name: Test Docker image
       run: |
         docker run -d -p 8000:8000 --name test-api heart-disease-api:latest
-        sleep 10
-        curl -f http://localhost:8000/health || exit 1
-        docker stop test-api
-        docker rm test-api
+        
+        # Wait for API to be ready with retry logic (quiet)
+        ready=0
+        for i in {1..20}; do
+          if curl -fsS http://localhost:8000/health > /dev/null; then
+            ready=1
+            break
+          fi
+          sleep 2
+        done
+        
+        if [ "$ready" -ne 1 ]; then
+          echo "API did not become ready in time"
+          docker logs test-api || true
+          docker stop test-api || true
+          docker rm test-api || true
+          exit 1
+        fi
+        
+        # Test health endpoint
+        curl -fsS http://localhost:8000/health || {
+          echo "Health check failed"
+          docker logs test-api || true
+          docker stop test-api || true
+          docker rm test-api || true
+          exit 1
+        }
+        
+        # Test prediction endpoint (core ML functionality)
+        curl -fsS -X POST http://localhost:8000/predict \
+          -H "Content-Type: application/json" \
+          -d '{"age":63.0,"sex":1,"cp":1,"trestbps":145.0,"chol":233.0,"fbs":1,"restecg":2,"thalach":150.0,"exang":0,"oldpeak":2.3,"slope":3,"ca":0.0,"thal":6.0}' || {
+            echo "Predict endpoint failed"
+            docker logs test-api || true
+            docker stop test-api || true
+            docker rm test-api || true
+            exit 1
+          }
+        
+        docker stop test-api || true
+        docker rm test-api || true
     
     - name: Save Docker image
       run: |
         docker save heart-disease-api:latest -o heart-disease-api.tar
     
     - name: Upload Docker image artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docker-image
         path: heart-disease-api.tar
         retention-days: 7
 
   train-model:
-    name: Train Model
+    name: Model pipeline (manual)
     needs: lint-and-test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch'
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -136,25 +174,20 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Download dataset
+    - name: Note
       run: |
-        mkdir -p data/processed
-        # For demo purposes, we assume the dataset is in the repo
-        # In production, you might fetch from a data store
+        echo "Full training is executed manually to save CI minutes."
+        echo "Run: python scripts/train_model.py (logs to MLflow, saves models/best_model.pkl)"
+        echo "This job is kept for manual model refresh and artifact publishing."
     
-    - name: Train model
-      run: |
-        # This would run your training script
-        echo "Training model..."
-        # python scripts/train_model.py
-    
-    - name: Upload model artifacts
-      uses: actions/upload-artifact@v3
+    - name: Upload model artifacts (if present)
+      uses: actions/upload-artifact@v4
       with:
         name: trained-model
         path: |
           models/
           mlruns/
+        if-no-files-found: warn
         retention-days: 30
 
   security-scan:
@@ -165,7 +198,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master

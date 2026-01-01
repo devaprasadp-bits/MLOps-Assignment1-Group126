@@ -30,7 +30,7 @@ Key observations:
 - Target variable is balanced
 - Chest pain type, maximum heart rate show correlation with target
 
-### Phase 2 & 3: Model Training with MLflow
+### Phase 2: Model Training and Experiment Tracking
 
 I trained four models:
 - Logistic Regression
@@ -55,7 +55,6 @@ Organized code following standard Python structure:
 - `app/` - FastAPI application
 - `tests/` - test cases
 - `requirements.txt` - dependencies
-- `setup.py` - package setup
 
 ### Phase 5: Testing
 
@@ -68,6 +67,9 @@ Test details:
 - 25 tests total, all passing
 - Tests cover preprocessing, API, and predictions
 - Coverage exceeds 70% requirement
+
+**CI/CD Pipeline:**
+A GitHub Actions pipeline was implemented for continuous integration. The pipeline runs linting, unit tests, builds the Docker image, and performs runtime smoke tests on the /health and /predict endpoints. Full model training and Kubernetes deployment are executed manually to avoid long CI runtimes and to keep infrastructure control explicit.
 
 ### Phase 6: Docker Containerization
 
@@ -97,7 +99,7 @@ Set up monitoring using Prometheus and Grafana:
 
 Deployed to Kubernetes using Minikube:
 - Deployment with 3 replicas
-- LoadBalancer service
+- Service exposed via Minikube
 - HPA for auto-scaling
 
 **Screenshot 8: Kubernetes resources**
@@ -135,17 +137,17 @@ Tested:
 
 ## 4. Results Summary
 
-Completed all 8 phases:
+Completed all required phases:
 
-| Phase | Description | Status |
-|-------|-------------|--------|
-| 1 | Exploratory Data Analysis | Complete |
-| 2-3 | Model Training with MLflow | Complete |
-| 4 | Code Packaging | Complete |
-| 5 | Testing (71.43% coverage) | Complete |
-| 6 | Docker Containerization | Complete |
-| 7 | Monitoring (Prometheus + Grafana) | Complete |
-| 8 | Kubernetes Deployment | Complete |
+| Phase | Status |
+|-------|--------|
+| Exploratory Data Analysis | Complete |
+| Model Training and Experiment Tracking | Complete |
+| Code Packaging | Complete |
+| Testing (71.43% coverage) | Complete |
+| Docker Containerization | Complete |
+| Monitoring (Prometheus + Grafana) | Complete |
+| Kubernetes Deployment | Complete |
 
 **Results:**
 - ML model with 85% accuracy
@@ -153,11 +155,11 @@ Completed all 8 phases:
 - Test coverage above 70%
 - Docker container running API
 - Monitoring with Prometheus and Grafana
-- Kubernetes deployment with 5 replicas
+- Kubernetes deployment scaled up to 5 replicas
 - CI/CD with GitHub Actions
 
 **Tools Used:**
-- Python 3.9/3.13
+- Python 3.9
 - FastAPI
 - Scikit-learn
 - MLflow

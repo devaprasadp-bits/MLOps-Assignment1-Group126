@@ -1,6 +1,6 @@
 # Heart Disease Prediction - MLOps Project
 
-This project builds a machine learning system to predict heart disease using the UCI Heart Disease dataset. Covers data analysis, model training, API deployment, Docker, and Kubernetes.
+This project builds a machine learning system to predict heart disease as part of an MLOps coursework assignment using the UCI Heart Disease dataset. It covers data analysis, model training, API deployment, and the steps needed to run this end to end with Docker and Kubernetes.
 
 ## What's Included
 
@@ -134,6 +134,7 @@ I got 71% coverage with 25 tests passing.
 - Minikube needs to be started before kubectl commands
 - mlruns/ folder contains all MLflow experiment data
 - Screenshots are in screenshots/ folder
+- Model training is run manually and is not part of the CI pipeline to avoid long CI runtimes
 
 ---
 
