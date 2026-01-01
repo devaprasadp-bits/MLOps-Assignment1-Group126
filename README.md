@@ -1,5 +1,9 @@
 # Heart Disease Prediction - MLOps Project
 
+**GitHub Repository:** https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126
+
+**Group 126** - MLOps Assignment 1 (S1-25_AIMLCZG523)
+
 This project builds a machine learning system to predict heart disease as part of an MLOps coursework assignment using the UCI Heart Disease dataset. It covers data analysis, model training, API deployment, and the steps needed to run this end to end with Docker and Kubernetes.
 
 ## What's Included
@@ -23,8 +27,12 @@ MLOPS_Assignment1_2025/
 ├── notebooks/              # Jupyter notebooks for EDA
 ├── models/                 # Saved models
 ├── k8s/                    # Kubernetes configs
+├── screenshots/            # Phase screenshots
+├── .github/workflows/      # CI/CD pipeline
 ├── Dockerfile              
 ├── docker-compose.yml      
+├── prometheus.yml          # Prometheus configuration
+├── setup.cfg               # Test configuration
 └── requirements.txt        
 ```
 
@@ -41,7 +49,7 @@ View MLflow experiments:
 ```bash
 mlflow ui
 ```
-Then open http://localhost:5000
+Then open http://localhost:5001
 
 ### 2. Run API Locally
 
@@ -107,7 +115,7 @@ Run tests:
 pytest --cov=src --cov=app tests/
 ```
 
-I got 71% coverage with 25 tests passing.
+Test results: 71% coverage with 25 tests passing.
 
 ## Problems I Faced
 
@@ -138,4 +146,4 @@ I got 71% coverage with 25 tests passing.
 
 ---
 
-MLOps Assignment - December 2025
+MLOps Assignment - January 2026
