@@ -73,7 +73,7 @@ Organized code following standard Python structure:
 
 ### Phase 5: Testing
 
-We wrote tests using pytest and achieved 71.43% code coverage.
+We wrote tests using pytest with 26 passing tests covering core functionality (72.84% coverage).
 
 **Screenshot 4: Test coverage**
 ![Test Coverage](screenshots/phase5_test_coverage.png)

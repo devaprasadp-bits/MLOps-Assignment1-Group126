@@ -122,7 +122,7 @@ Run tests:
 pytest --cov=src --cov=app tests/
 ```
 
-Test results: 71% coverage with 25 tests passing.
+Test results: 72.84% coverage with 26 tests passing.
 
 ## Problems We Faced
 
