@@ -32,7 +32,54 @@ The goal was to create a working machine learning system following MLOps practic
 
 ---
 
-## 2. Implementation Overview
+## 2. System Architecture
+
+### Logical End-to-End MLOps Architecture
+
+The architecture spans three conceptual layers:
+- **Model Development & Tracking** (A→D): Data acquisition, EDA, model training, and experiment tracking
+- **Source Control & CI** (E→F): Version control, automated testing, and continuous integration
+- **Runtime & Deployment** (G→O): Containerization, orchestration, monitoring, and production API
+
+```mermaid
+flowchart TD
+    A[Data Source<br/>UCI Heart Disease Dataset<br/>303 samples, 14 features] --> B[EDA and Feature Engineering<br/>Jupyter Notebook]
+    B --> C[Model Training<br/>3 Models]
+    
+    C --> D[MLflow Experiment Tracking<br/>Logistic Regression<br/>Random Forest<br/>Gradient Boosting<br/>Metrics: Accuracy, Precision, Recall, F1, AUC]
+    
+    D --> E[GitHub Repository<br/>Source Code - Tests - CI/CD<br/>Dockerfiles - K8s Manifests]
+    
+    E --> F[GitHub Actions CI/CD<br/>Linting and Testing<br/>26 tests, 72.84% coverage]
+    
+    F --> G[Docker Containerization]
+    
+    G --> H[FastAPI App:8000<br/>ML Model API]
+    G --> I[Prometheus:9090<br/>Metrics Collection]
+    G --> J[Grafana:3000<br/>Dashboard Visualization]
+    
+    H --> K[Kubernetes Minikube Cluster]
+    I --> K
+    J --> K
+    
+    K --> L[Deployment: heart-disease-api<br/>5 Replicas<br/>Self-healing - Rolling Updates - Load Balancing]
+    
+    L --> M[Service LoadBalancer<br/>External IP: localhost:30080]
+    
+    M --> N[Monitoring Stack<br/>Prometheus: /metrics scraping<br/>Grafana: 4-panel dashboard]
+    
+    N --> O[Production API Endpoint<br/>POST /predict<br/>Input: 13 patient features<br/>Output: Disease probability + risk level]
+    
+    style A fill:#e1f5ff
+    style D fill:#fff4e1
+    style F fill:#e8f5e9
+    style K fill:#f3e5f5
+    style O fill:#ffebee
+```
+
+---
+
+## 3. Implementation Overview
 
 ### Phase 1: Exploratory Data Analysis
 
