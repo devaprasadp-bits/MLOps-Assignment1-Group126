@@ -3,7 +3,7 @@
 **GitHub Repository:** https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126
 
 **Group 126** - MLOps Assignment 1 (S1-25_AIMLCZG523)
-### CONTRIBUTERS
+### CONTRIBUTORS
 - DEVAPRASAD P           (2023aa05069@wilp.bits-pilani.ac.in)
 - DEVENDER KUMAR         (2024aa05065@wilp.bits-pilani.ac.in)
 - CHAVALI AMRUTHA VALLI  (2024aa05610@wilp.bits-pilani.ac.in)
