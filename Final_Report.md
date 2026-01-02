@@ -87,11 +87,14 @@ Test details:
 **CI/CD Pipeline:**
 A GitHub Actions pipeline was implemented for continuous integration. The pipeline runs linting, unit tests, builds the Docker image, and performs runtime smoke tests on the /health and /predict endpoints. Full model training and Kubernetes deployment are executed manually to avoid long CI runtimes and to keep infrastructure control explicit.
 
+**Screenshot 5: CI/CD Pipeline**
+![CI/CD Passing](screenshots/cicd_passing.png)
+
 ### Phase 6: Docker Containerization
 
 Created a Docker container for the FastAPI application. The Dockerfile has all dependencies and the trained model.
 
-**Screenshot 5: Docker container**
+**Screenshot 6: Docker container**
 ![Docker Running](screenshots/phase6_docker_running.png)
 
 Tested API endpoints:
@@ -105,10 +108,10 @@ Set up monitoring using Prometheus and Grafana:
 - Grafana shows the metrics in dashboards
 - Tracking prediction counts and errors
 
-**Screenshot 6: Prometheus**
+**Screenshot 7: Prometheus**
 ![Prometheus](screenshots/phase7_prometheus.png)
 
-**Screenshot 7: Grafana**
+**Screenshot 8: Grafana**
 ![Grafana](screenshots/phase7_grafana.png)
 
 ### Phase 8: Kubernetes Deployment
@@ -118,7 +121,7 @@ Deployed to Kubernetes using Minikube:
 - Service exposed via Minikube
 - HPA for auto-scaling
 
-**Screenshot 8: Kubernetes resources**
+**Screenshot 9: Kubernetes resources**
 ![Kubectl Get All](screenshots/phase8_kubectl_get_all.png)
 
 Tested:
@@ -126,7 +129,7 @@ Tested:
 - API access through Kubernetes service
 - Pod deletion and automatic recreation
 
-**Screenshot 9: API response**
+**Screenshot 10: API response**
 ![API Response](screenshots/phase8_api_response.png)
 
 ---
