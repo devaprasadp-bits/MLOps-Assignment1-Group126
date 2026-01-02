@@ -3,12 +3,13 @@
 **GitHub Repository:** https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126
 
 **Group 126** - MLOps Assignment 1 (S1-25_AIMLCZG523)
-### CONTRIBUTORS
-- DEVAPRASAD P           (2023aa05069@wilp.bits-pilani.ac.in)
-- DEVENDER KUMAR         (2024aa05065@wilp.bits-pilani.ac.in)
-- CHAVALI AMRUTHA VALLI  (2024aa05610@wilp.bits-pilani.ac.in)
-- PALAKOLANU PREETHI     (2024aa05608@wilp.bits-pilani.ac.in)
-- ROHAN TIRTHANKAR BEHERA(2024aa05607@wilp.bits-pilani.ac.in)
+
+## Contributors:
+- Devaprasad P           (2023aa05069@wilp.bits-pilani.ac.in)
+- Devender Kumar         (2024aa05065@wilp.bits-pilani.ac.in)
+- Chavali Amrutha Valli  (2024aa05610@wilp.bits-pilani.ac.in)
+- Palakolanu Preethi     (2024aa05608@wilp.bits-pilani.ac.in)
+- Rohan Tirthankar Behera(2024aa05607@wilp.bits-pilani.ac.in)
 
 This project builds a machine learning system to predict heart disease as part of an MLOps coursework assignment using the UCI Heart Disease dataset. It covers data analysis, model training, API deployment, and the steps needed to run this end to end with Docker and Kubernetes.
 
@@ -123,7 +124,7 @@ pytest --cov=src --cov=app tests/
 
 Test results: 71% coverage with 25 tests passing.
 
-## Problems I Faced
+## Problems We Faced
 
 1. **NumPy version issue**: Model trained with NumPy 2.x but Docker used 1.24.3. Fixed by changing requirements.txt to `numpy>=1.24.3`.
 

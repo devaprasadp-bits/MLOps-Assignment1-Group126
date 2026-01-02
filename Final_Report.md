@@ -36,7 +36,7 @@ The goal was to create a working machine learning system following MLOps practic
 
 ### Phase 1: Exploratory Data Analysis
 
-I analyzed the UCI Heart Disease dataset with 303 patient records and 14 features. The analysis showed patterns in the data including how chest pain type correlates with heart disease.
+We analyzed the UCI Heart Disease dataset with 303 patient records and 14 features. The analysis showed patterns in the data including how chest pain type correlates with heart disease.
 
 **Screenshot 1: EDA Notebook**
 ![EDA Results](screenshots/phase1_eda.png)
@@ -48,11 +48,10 @@ Key observations:
 
 ### Phase 2: Model Training and Experiment Tracking
 
-I trained four models:
+We trained three models:
 - Logistic Regression
 - Random Forest
 - Gradient Boosting
-- Support Vector Machine
 
 MLflow tracked all experiments including hyperparameters, metrics, and saved models.
 
@@ -62,7 +61,7 @@ MLflow tracked all experiments including hyperparameters, metrics, and saved mod
 **Screenshot 3: Model comparison**
 ![Model Comparison](screenshots/phase3_model_comparison.png)
 
-Random Forest had the best accuracy around 85%, so I used it as the final model.
+Random Forest had the best accuracy around 85%, so we used it as the final model.
 
 ### Phase 4: Code Packaging
 
@@ -74,7 +73,7 @@ Organized code following standard Python structure:
 
 ### Phase 5: Testing
 
-Wrote tests using pytest and got 71.43% code coverage.
+We wrote tests using pytest and achieved 71.43% code coverage.
 
 **Screenshot 4: Test coverage**
 ![Test Coverage](screenshots/phase5_test_coverage.png)
@@ -92,7 +91,7 @@ A GitHub Actions pipeline was implemented for continuous integration. The pipeli
 
 ### Phase 6: Docker Containerization
 
-Created a Docker container for the FastAPI application. The Dockerfile has all dependencies and the trained model.
+We created a Docker container for the FastAPI application. The Dockerfile has all dependencies and the trained model.
 
 **Screenshot 6: Docker container**
 ![Docker Running](screenshots/phase6_docker_running.png)
@@ -103,7 +102,7 @@ Tested API endpoints:
 
 ### Phase 7: Monitoring
 
-Set up monitoring using Prometheus and Grafana:
+We set up monitoring using Prometheus and Grafana:
 - Prometheus collects metrics from the API
 - Grafana shows the metrics in dashboards
 - Tracking prediction counts and errors
@@ -193,7 +192,7 @@ Completed all required phases:
 
 This project implements an end-to-end MLOps pipeline. The system has testing, monitoring, and can scale using Kubernetes. All phases are working from data analysis to deployment.
 
-The project gave hands-on experience with MLOps tools like Docker, Kubernetes, Prometheus, and CI/CD.
+The project gave our team hands-on experience with MLOps tools like Docker, Kubernetes, Prometheus, and CI/CD.
 
 ---
 
