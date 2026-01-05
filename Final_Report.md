@@ -256,6 +256,6 @@ Repository includes:
 - CI/CD workflows
 - Documentation
 
-**Video Link:** [Add your video link here]
+**Video Link:** https://drive.google.com/file/d/1rw_M6-xPpKtFr61X1hbaMd4Q4mGpus2S/view?usp=drive_link
 
 ---
