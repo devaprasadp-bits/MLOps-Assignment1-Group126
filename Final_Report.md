@@ -46,7 +46,7 @@ flowchart TD
     A[Data Source<br/>UCI Heart Disease Dataset<br/>303 samples, 14 features] --> B[EDA and Feature Engineering<br/>Jupyter Notebook]
     B --> C[Model Training<br/>3 Models]
     
-    C --> D[MLflow Experiment Tracking<br/>Logistic Regression<br/>Random Forest<br/>Gradient Boosting<br/>Metrics: Accuracy, Precision, Recall, F1, AUC]
+    C --> D[MLflow Experiment Tracking<br/>Logistic Regression<br/>Random Forest baseline<br/>Gradient Boosting<br/>Random Forest Tuned<br/>Best: 90.16% Accuracy, 95.67% ROC-AUC]
     
     D --> E[GitHub Repository<br/>Source Code - Tests - CI/CD<br/>Dockerfiles - K8s Manifests]
     
@@ -95,10 +95,11 @@ Key observations:
 
 ### Phase 2: Model Training and Experiment Tracking
 
-We trained three models:
-- Logistic Regression
-- Random Forest
-- Gradient Boosting
+We trained four models:
+- Logistic Regression (baseline)
+- Random Forest (baseline)
+- Gradient Boosting (baseline)
+- Random Forest with hyperparameter tuning (best model)
 
 MLflow tracked all experiments including hyperparameters, metrics, and saved models.
 
@@ -108,7 +109,7 @@ MLflow tracked all experiments including hyperparameters, metrics, and saved mod
 **Screenshot 3: Model comparison**
 ![Model Comparison](screenshots/phase3_model_comparison.png)
 
-Random Forest had the best accuracy around 85%, so we used it as the final model.
+The hyperparameter-tuned Random Forest achieved the best performance with **90.16% test accuracy** and **95.67% ROC-AUC**, so we used it as the final model.
 
 ### Phase 4: Code Packaging
 
@@ -126,9 +127,9 @@ We wrote tests using pytest with 26 passing tests covering core functionality (7
 ![Test Coverage](screenshots/phase5_test_coverage.png)
 
 Test details:
-- 25 tests total, all passing
+- 26 tests total, all passing
 - Tests cover preprocessing, API, and predictions
-- Coverage exceeds 70% requirement
+- Coverage: 72.84% (exceeds 70% requirement)
 
 **CI/CD Pipeline:**
 A GitHub Actions pipeline was implemented for continuous integration. The pipeline runs linting, unit tests, builds the Docker image, and performs runtime smoke tests on the /health and /predict endpoints. Full model training and Kubernetes deployment are executed manually to avoid long CI runtimes and to keep infrastructure control explicit.
@@ -209,19 +210,19 @@ Completed all required phases:
 | Exploratory Data Analysis | Complete |
 | Model Training and Experiment Tracking | Complete |
 | Code Packaging | Complete |
-| Testing (71.43% coverage) | Complete |
+| Testing (72.84% coverage, 26 tests) | Complete |
 | Docker Containerization | Complete |
 | Monitoring (Prometheus + Grafana) | Complete |
 | Kubernetes Deployment | Complete |
 
 **Results:**
-- ML model with 85% accuracy
-- Experiment tracking with MLflow
-- Test coverage above 70%
-- Docker container running API
-- Monitoring with Prometheus and Grafana
-- Kubernetes deployment scaled up to 5 replicas
-- CI/CD with GitHub Actions
+- Best ML model: Random Forest Tuned with **90.16% accuracy** and **95.67% ROC-AUC**
+- 4 models trained with experiment tracking via MLflow
+- Test coverage: 72.84% with 26 tests passing
+- Docker container running FastAPI with health checks
+- Complete monitoring stack with Prometheus and Grafana
+- Kubernetes deployment with 5 replicas and auto-scaling
+- CI/CD pipeline with GitHub Actions (linting, testing, Docker build)
 
 **Tools Used:**
 - Python 3.9

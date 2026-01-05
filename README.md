@@ -16,13 +16,13 @@ This project builds a machine learning system to predict heart disease as part o
 ## What's Included
 
 - Data analysis with Jupyter notebooks
-- Multiple ML models (Random Forest worked best with 85% accuracy)
+- Multiple ML models (Random Forest Tuned achieved best performance with 90.16% accuracy and 95.67% ROC-AUC)
 - MLflow for experiment tracking
 - FastAPI for predictions
 - Docker containers
 - Kubernetes deployment on Minikube
 - Monitoring with Prometheus and Grafana
-- Tests with pytest (71% coverage)
+- Tests with pytest (72.84% coverage, 26 tests)
 
 ## Project Structure
 
@@ -43,22 +43,86 @@ MLOPS_Assignment1_2025/
 └── requirements.txt        
 ```
 
-## Running the Project
+## Prerequisites
 
-### 1. Data Analysis and Model Training
+- Python 3.9 or 3.10
+- Docker and Docker Compose
+- Git
+- (Optional) Minikube and kubectl for Kubernetes deployment
+- (Optional) Jupyter for running notebooks
 
-Run notebooks to explore data and train models:
+## Quick Start
+
+### 1. Clone and Setup
+
 ```bash
-jupyter notebook
+# Clone the repository
+git clone https://github.com/devaprasadp-bits/MLOps-Assignment1-Group126.git
+cd MLOps-Assignment1-Group126
+
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Prepare data
+python scripts/prepare_data.py
 ```
 
-View MLflow experiments:
+### 2. Train Model (Required)
+
+**Note:** Models are not included in the repository. You must train a model before running the API.
+
+**Option A - Using Script (Recommended for quick setup):**
 ```bash
-mlflow ui
+# Train all models with hyperparameter tuning
+python scripts/train_model.py --model all --tune
+
+# Or use the Makefile
+make train
+```
+
+**Option B - Using Notebook (Recommended for learning/exploration):**
+```bash
+# Open the model development notebook
+jupyter notebook notebooks/02_model_development.ipynb
+# Run all cells to train and save the best model
+```
+
+Both options will:
+- Load preprocessed data from `data/processed/heart_disease_clean.csv`
+- Train multiple models (Logistic Regression, Random Forest, Gradient Boosting)
+- Perform hyperparameter tuning
+- Log experiments to MLflow
+- Save the best model to `models/best_model.pkl`
+
+### 3. View MLflow Experiments
+
+```bash
+mlflow ui --port 5001
 ```
 Then open http://localhost:5001
 
-### 2. Run API Locally
+## Running the Project
+
+## Running the Project
+
+After completing the Quick Start setup above, you can explore the project:
+
+### Optional: Data Analysis
+
+Run notebooks to explore data:
+```bash
+jupyter notebook
+# Open notebooks/01_data_acquisition_and_eda.ipynb
+# Or notebooks/02_model_development.ipynb
+```
+
+### 4. Run API Locally
+
+**Prerequisites:** Complete step 2 (Train Model) first to create `models/best_model.pkl`.
 
 Start the API:
 ```bash
@@ -72,7 +136,9 @@ curl http://localhost:8000/health
 
 # Make prediction
 curl -X POST "http://localhost:8000/predict" \
-  -H "Content-Type: application/json" \
+  -H5. Docker
+
+**Prerequisites:** Complete step 2 (Train Model) first.-Type: application/json" \
   -d '{"age": 63.0, "sex": 1, "cp": 1, "trestbps": 145.0, "chol": 233.0, "fbs": 1, "restecg": 2, "thalach": 150.0, "exang": 0, "oldpeak": 2.3, "slope": 3, "ca": 0.0, "thal": 6.0}'
 ```
 
@@ -88,7 +154,9 @@ Or use docker-compose (runs API + Prometheus + Grafana):
 ```bash
 docker-compose up
 ```
+6. Kubernetes
 
+**Prerequisites:** Complete step 2 (Train Model) and step 5 (Docker build) first.
 Access:
 - API: http://localhost:8000
 - Prometheus: http://localhost:9090
@@ -135,11 +203,12 @@ Test results: 72.84% coverage with 26 tests passing.
 4. **Jupyter catching commands**: Jupyter server was intercepting terminal commands. Had to use separate tabs.
 
 ## Results
-
-- Dataset: UCI Heart Disease (303 samples, 14 features)
-- Best model: Random Forest with ~85% accuracy  
-- API: FastAPI with /health and /predict endpoints
-- Tests: 25 tests, 71% coverage
+Models trained: Logistic Regression, Random Forest, Gradient Boosting, Random Forest Tuned
+- Best model: Random Forest Tuned with **90.16% test accuracy** and **95.67% ROC-AUC**
+- API: FastAPI with /health, /predict, /metrics, and docs endpoints
+- Tests: 26 tests passing, 72.84% coverage
+- Deployment: Kubernetes with scalable replicas
+- Monitoring: Prometheus + Grafana tracking predictions and system metric
 - Deployment: Kubernetes with 5 replicas
 - Monitoring: Prometheus + Grafana tracking predictions
 
